@@ -25,6 +25,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
@@ -35,6 +36,9 @@ import java.io.StringWriter;
  */
 public class Main {
 
+    private static String EDI_FILE = "/home/alex/git/DocXchange/transformation/src/test/resources/samples/dr-oetker/order_carrefour.edi";
+    private static String XML_FILE = "/home/alex/git/DocXchange/transformation/src/test/resources/samples/dr-oetker/order_carrefour.xml";
+
     protected static String runSmooksTransform() throws IOException, SAXException, SmooksException {
 
         // Configure Smooks using a Smooks config...
@@ -42,12 +46,19 @@ public class Main {
         
         // Or, configure Smooks programmatically...
         Smooks smooks = new Smooks();
-        smooks.setReaderConfig(new UNEdifactReaderConfigurator("urn:org.milyn.edi.unedifact:d03b-mapping:*"));
+        smooks.setReaderConfig(new UNEdifactReaderConfigurator("urn:org.milyn.edi.unedifact:d96a-mapping:*"));
 
         try {
             StringWriter writer = new StringWriter();
 
-            smooks.filterSource(new StreamSource(new FileInputStream("PAXLST.edi")), new StreamResult(writer));
+            smooks.filterSource(new StreamSource(new FileInputStream(EDI_FILE)), new StreamResult(writer));
+
+            String result = writer.toString();
+
+            PrintWriter out = new PrintWriter(XML_FILE);
+
+            out.print(result);
+            out.close();
 
             return writer.toString();
         } finally {
@@ -68,6 +79,6 @@ public class Main {
     }
 
     private static String readInputMessage() throws IOException {
-        return StreamUtils.readStreamAsString(new FileInputStream("PAXLST.edi"));
+        return StreamUtils.readStreamAsString(new FileInputStream(EDI_FILE));
     }
 }

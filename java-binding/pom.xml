@@ -34,8 +34,8 @@
         </dependency>
         <dependency>
             <groupId>org.milyn.edi.unedifact</groupId>
-            <artifactId>d93a-binding</artifactId>
-            <version>${project.version}</version>
+            <artifactId>d96a-binding</artifactId>
+            <version>1.4</version>
         </dependency>
     </dependencies>
 

@@ -17,8 +17,8 @@
 package example;
 
 import org.milyn.SmooksException;
-import org.milyn.edi.unedifact.d93a.D93AInterchangeFactory;
-import org.milyn.edi.unedifact.d93a.INVOIC.Invoic;
+import org.milyn.edi.unedifact.d96a.D96AInterchangeFactory;
+import org.milyn.edi.unedifact.d96a.INVOIC.Invoic;
 import org.milyn.smooks.edi.unedifact.model.UNEdifactInterchange;
 import org.milyn.smooks.edi.unedifact.model.r41.UNEdifactInterchange41;
 import org.milyn.smooks.edi.unedifact.model.r41.UNEdifactMessage41;
@@ -37,12 +37,14 @@ import java.io.StringWriter;
  */
 public class Main {
 
+    private static String EDI_FILE = "/home/alex/Documents/dr-oetker-docs/004_RO_INVOIC_CARREFOUR (3).wfa";
+
     public static void main(String[] args) throws IOException, SAXException, SmooksException {
         // Create an instance of the EJC generated factory class... cache this and reuse !!!
-        D93AInterchangeFactory factory = D93AInterchangeFactory.getInstance();
+        D96AInterchangeFactory factory = D96AInterchangeFactory.getInstance();
 
         // Deserialize the UN/EDIFACT interchange stream to Java...
-        InputStream stream = new FileInputStream("INVOIC.edi");
+        InputStream stream = new FileInputStream(EDI_FILE);
 
         /*------------------------------------------
         Read the interchange to Java Objects...
@@ -67,7 +69,7 @@ public class Main {
                     if (messageObj instanceof Invoic) {
                         Invoic invoice = (Invoic) messageObj;
 
-                        System.out.println("\tParty Name: " + invoice.getSegmentGroup2().get(0).getNADNameAndAddress().getC080PartyName().getE30361PartyName());
+                        System.out.println("\tParty Name: " + invoice.getSegmentGroup2().get(0).getNameAndAddress().getCityName());
                     }
                 }
             }
